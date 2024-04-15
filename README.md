@@ -1,10 +1,11 @@
 # Chomp
 
-Built in Rust, Chomp is a strategy-game played by two players whose main goal is to get the opposing player to eat the poisoned chocolate square located in the top-left at location (0,0). The process involves leaving no other option for the other player.
+Cordet Gula  
+Rust-Lang Fall '24  
+Hw3 - chomp  
+Professor: Bart Massey
 
----
-
-## :dart: About
+## About
 
 Chomp is a strategy-game played by two players whose main goal is to get the opposing player to eat the *poisoned* chocolate square located in the top-left at location (0,0). The process involves leaving no other option for the other player.
 
@@ -23,12 +24,13 @@ winning-move(posn):
             m ← winning-move(p)
             if no winning move is returned
                 return the move r, c
-   return no winning move
+   return winning move
 ```
+
+---
 
 ### Chomp Library
 
----
 The Chomp library implements a state space for the game board represented by `struct Board` using a `HashSet` of tuples `(i,j)`. The purpose of using a HashSet over an array is the improvement in efficiency and mutability of the board's elements.
 
 The following are supported operations for the `Board`:
@@ -40,9 +42,10 @@ The following are supported operations for the `Board`:
 - Return a winning move - if there is a winning move.
 - `Clone` the new board state.
 
+---
+
 ### Chomp Binary Application
 
----
 The `main.rs` is the binary application file that implements the AI player. That opposes the human {user} player.
 
 Actions:
@@ -61,14 +64,14 @@ A player loses when the poisoned square at `(0,0)` is that player's only move - 
 
 A move is represented by `chomp i j`. The total possible on non-losing moves is `(n * m) - 1`.
 
-## :sparkles: Features
+## Features
 
 - [ ] Takes command line input
 - [ ] Passed all tests implemented
 - [ ] Formatted with `cargo fmt`
 - [ ] Passed `cargo clippy`
 
-## :school: Methods
+## Methods
 
 **Process**
 
@@ -142,7 +145,7 @@ $ cargo clippy --all
 
 Additionally, `cargo clippy` returned no errors.
 
-## :rocket: Resources
+## Resources
 
 The following resources were used in this project:
 
@@ -151,7 +154,7 @@ The following resources were used in this project:
 - [Visual Studio Code](https://code.visualstudio.com/)
 - For a complete list of references [see references here](/chomp/References.md)
 
-## :checkered_flag: Starting
+## Starting
 
 ```bash
 # Clone this project
@@ -167,7 +170,7 @@ $ cd chomp/chomp-bin
 $ cargo test
 ```
 
-## :memo: License
+## License
 
 This project is under license from MIT. For more details, see the [LICENSE](../LICENSE) file.
 
