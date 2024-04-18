@@ -75,7 +75,7 @@ A move is represented by `chomp i j`. The total possible on non-losing moves is 
 
 **Process**
 
-```bash
+```zsh
 $ cargo new --lib chomp-lib
     Created library `chomp-lib` package
 
@@ -90,13 +90,11 @@ chomp/chomp-bin$ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 1.91s
 
 $ cargo add impl
-
-
 ```
 
-I followed the program guideline on [Canvas](https://canvas.pdx.edu/courses/77336/assignments/758253):
+I followed the program guidelines from the rust-programming class:
 
-```bash
+```zsh
 Chomp is played on a terminal interface.
 
 $ What is the board size?: <m> <n>
@@ -110,6 +108,19 @@ $ <Entered move is a winning move>
 $ For non-winning moves: <Enter the furthest-right piece in the lowermost, nonempty row>
 This will stall a losing move - allowing more time for the other player to make a mistake.
 ```
+
+## Run
+
+```zsh
+# "--" indicates commands for the program rather than cargo.
+# The first command (Vec index 0) is the binary. 
+# The following commands are the user input.
+
+$ cargo run -- comm1 comm2
+```
+
+Reference for I/O: https://doc.rust-lang.org/stable/book/ch12-01-accepting-command-line-arguments.html
+
 <!-- Update EVerything below -->
 
 ## WIP
@@ -137,7 +148,7 @@ I utilized the tests from Canvas including `cargo run 2 20 17` where `2^20 modul
 
 >Testing was implemented with `cargo test`. The modexp results for both tests passed:
 
-```bash
+```zsh
 $ cargo clippy --all
     Checking toy-rsa v0.1.0
     Finished dev [unoptimized + debuginfo] target(s) in 0.63s
@@ -152,11 +163,11 @@ The following resources were used in this project:
 - [mintlify Doc Writer](https://github.com/mintlify/writer)
 - [Rust std](https://doc.rust-lang.org/std/index.html)
 - [Visual Studio Code](https://code.visualstudio.com/)
-- For a complete list of references [see references here](/chomp/References.md)
+- [Ascii Art Generator](https://www.asciiart.eu/text-to-ascii-art)
 
 ## Starting
 
-```bash
+```zsh
 # Clone this project
 $ git clone https://github.com/CordetG/rust_programming/chomp
 
@@ -174,7 +185,7 @@ $ cargo test
 
 This project is under license from MIT. For more details, see the [LICENSE](../LICENSE) file.
 
-Made by <a href="https://github.com/CordetG" target="_blank">Cordet Gula</a>
+Made by [Cordet Gula](https://github.com/CordetG)
 
 &#xa0;
 
