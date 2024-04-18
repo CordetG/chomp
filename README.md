@@ -62,7 +62,7 @@ Actions:
     - return the winning move
 A player loses when the poisoned square at `(0,0)` is that player's only move - the last square on the board.
 
-A move is represented by `chomp i j`. The total possible on non-losing moves is `(n * m) - 1`.
+A move is represented by `chomp i j`. The total possible on non-losing moves is `(m * n) - 1`.
 
 ## Features
 
