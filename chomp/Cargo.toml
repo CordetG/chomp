@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 clearscreen = "3.0.0"
+chomp-board = {path = "../chomp-board"}
