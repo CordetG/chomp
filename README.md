@@ -121,6 +121,13 @@ $ cargo run -- comm1 comm2
 
 Reference for I/O: https://doc.rust-lang.org/stable/book/ch12-01-accepting-command-line-arguments.html
 
+---
+
+Notes:
+Got error: 'expected identifier, found keyword' --> It took me a second to realize what this meant until I realized the compiler uses the keyword *move* in regard to ownership. The suggestion was to create r#move, but I figured it would be more readable to just change the name of the member in the struct.
+
+---
+
 <!-- Update EVerything below -->
 
 ## WIP
