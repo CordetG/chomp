@@ -1,5 +1,3 @@
-#[allow(unused_imports)]
-use std::collections::HashSet;
 use std::env;
 
 const TITLE: &str = "
@@ -14,7 +12,7 @@ const TITLE: &str = "
 
 fn main() {
     clearscreen::clear().expect("failed to clear screen");
-    
+
     println!("{}", TITLE);
 
     let args: Vec<String> = env::args().collect();
