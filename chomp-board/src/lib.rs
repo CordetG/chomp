@@ -1,3 +1,16 @@
+#[allow(unused_imports)]
+use std::collections::HashSet;
+
+#[derive(PartialEq, Eq, Hash)]
+struct Position(u8, u8);
+
+struct Board {
+    start: Position,
+    end: Position,
+    player_move: Position,
+}
+
+// package def ref
 pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
