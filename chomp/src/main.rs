@@ -1,3 +1,6 @@
+#![allow(unused_imports)]
+
+use chomp_board as game;
 use std::env;
 
 const TITLE: &str = "
@@ -18,6 +21,8 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let (_m, _n) = (&args[1], &args[2]);
+
+    // let mut chomp_bar = game::new(20);
 
     // if &args[1] == "chomp" then index equals (&args[2], &args[3])
 }
