@@ -16,3 +16,4 @@ Cargo.lock
 # IDE Files
 .vscode
 *.vscode/
+.trunk
