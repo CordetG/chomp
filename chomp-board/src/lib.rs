@@ -6,19 +6,23 @@ use std::collections::HashSet;
 #[derive(PartialEq, Eq, Hash, Debug, Clone)]
 pub struct Position(String, u8);
 
-// Board Size type
+// Board Size type as m x n
 #[derive(Clone)]
-pub struct BoardSize(u64);
+pub struct BoardSize(&'static str, &'static str);
 
 #[derive(Clone)]
 pub struct Board {
     size: BoardSize,
     state: HashSet<Position>,
-    player_move: Position,
+    player_move: Option<Position>,
+}
+
+trait Game {
+    fn new(def_size: BoardSize) -> Self;
 }
 
 impl Board {
-    pub fn new(size: BoardSize, player_move: Position) -> Self {
+    pub fn new(size: BoardSize, player_move: Option<Position>) -> Self {
         Board {
             size,
             state: HashSet::new(),
@@ -33,7 +37,10 @@ impl Board {
         todo!("create a new board state")
     }
 
-    pub fn display_board() {}
+    pub fn format_board(to_display: &HashSet<String>) -> String {
+        let display_board: Vec<&str> = to_display.iter().map(String::as_ref).collect();
+        display_board.join(", ")
+    }
 }
 
 impl std::fmt::Display for Position {
@@ -44,7 +51,17 @@ impl std::fmt::Display for Position {
 
 impl std::fmt::Display for BoardSize {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
-        write!(f, "Board Size: {}", self.0)
+        write!(f, "Board Size: {} x {}", self.0, self.1)
+    }
+}
+
+impl Game for Board {
+    fn new(def_size: BoardSize) -> Board {
+        Board {
+            size: def_size,
+            state: HashSet::new(),
+            player_move: None,
+        }
     }
 }
 
