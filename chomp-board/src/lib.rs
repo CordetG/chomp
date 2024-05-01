@@ -8,6 +8,8 @@
 #![allow(dead_code, unused_variables)]
 use std::collections::HashSet;
 
+const ROWS: [&str; 10] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+
 /// Tuple type for the board position
 #[derive(PartialEq, Eq, Hash, Debug, Clone)]
 pub struct Position(String, u8);
@@ -45,6 +47,8 @@ pub trait Game {
     /// implementation for a function named `new` that takes a `BoardSize` parameter and returns an instance
     /// of the implementing type (`Self`).
     fn new(def_size: BoardSize) -> Self;
+
+    fn default_state(&mut self, size: BoardSize, state: HashSet<Position>);
 }
 
 /// The `impl Board { ... }` block in the Rust code snippet is implementing additional methods for the
@@ -100,7 +104,7 @@ impl std::fmt::Display for Position {
 /// The `impl From<(String, String)> for BoardSize { ... }` block is implementing the `From`
 /// trait for converting a tuple of two `String` values into a `BoardSize` struct.
 impl From<(String, String)> for BoardSize {
-    /// The function `from` in Rust takes a tuple of two strings and returns a `BoardSize` struct.
+    /// The function `from` takes a tuple of two strings and returns a `BoardSize` struct.
     ///
     /// Arguments:
     ///
@@ -171,6 +175,17 @@ impl Game for Board {
             state: HashSet::new(),
             player_move: None,
         }
+    }
+
+    #[allow(clippy::needless_range_loop)]
+    fn default_state(&mut self, size: BoardSize, state: HashSet<Position>) {
+        let clone_rows = ROWS;
+        let m = size.0.as_bytes().as_ptr() as usize;
+        for alpha in 1..=m {
+            self.state
+                .insert(Position(clone_rows[alpha].to_string(), 1));
+        }
+        todo!("add int values 1..n to Position")
     }
 }
 
