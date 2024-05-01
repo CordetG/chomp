@@ -78,20 +78,18 @@ A move is represented by `chomp i j`. The total possible on non-losing moves is 
 **Process**
 
 ```zsh
-$ cargo new --lib chomp-lib
-    Created library `chomp-lib` package
+$ cargo new --lib chomp-board
+    Created library `chomp-board` package
 
-$ cargo new chomp-bin
-    Created binary (application) `chomp-bin` package
+$ cargo new chomp
+    Created binary (application) `chomp` package
 
-chomp/chomp-lib$ cargo build
-    Compiling chomp-lib v0.1.0 <path>
+chomp/chomp-board$ cargo build
+    Compiling chomp-board v0.1.0 <path>
     Finished dev [unoptimized + debuginfo] target(s) in 0.26s
 
-chomp/chomp-bin$ cargo build
+chomp/chomp$ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 1.91s
-
-$ cargo add impl
 ```
 
 I followed the program guidelines from the rust-programming class:
@@ -118,7 +116,10 @@ This will stall a losing move - allowing more time for the other player to make 
 # The first command (Vec index 0) is the binary. 
 # The following commands are the user input.
 
-$ cargo run -- comm1 comm2
+# When the program is first run, the command line input should be # rows and # of columns for the board
+$ cargo run -- <m> <n>
+
+# Following player moves will take in <letter> <number> such as 'b' '4' to indicate move position
 ```
 
 Reference for I/O: https://doc.rust-lang.org/stable/book/ch12-01-accepting-command-line-arguments.html
@@ -131,6 +132,29 @@ Got error: 'expected identifier, found keyword' --> It took me a second to reali
 :exclamation: To-do: Mention fun ownership/borrowing/lifetime struggles.
 
 ---
+
+## Tests
+
+Testing BoardSize fmt implementation:
+
+```zsh
+$ cargo test
+
+   Doc-tests chomp-board
+
+running 1 test
+test src/lib.rs - BoardSize::fmt (line 129) ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+```
+
+## Doc-Comments
+
+```zsh
+# Open the rust docs
+$ cargo doc --open
+
+```
 
 <!-- Update EVerything below -->
 WIP
@@ -171,6 +195,7 @@ Additionally, `cargo clippy` returned no errors.
 The following resources were used in this project:
 
 - [mintlify Doc Writer](https://github.com/mintlify/writer)
+- Rust-Analyzer
 - [Rust std](https://doc.rust-lang.org/std/index.html)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Ascii Art Generator](https://www.asciiart.eu/text-to-ascii-art)
@@ -185,7 +210,7 @@ $ git clone https://github.com/CordetG/chomp
 $ cd chomp/chomp-bin
 
 # Run the project
-//$ cargo run chomp
+$ cargo run chomp
 
 # Test the project
 $ cargo test
