@@ -7,6 +7,8 @@ Professor: Bart Massey
 
 ## About
 
+:exclamation: Description referenced from the Canvas assignment page.
+
 Chomp is a strategy-game played by two players whose main goal is to get the opposing player to eat the *poisoned* chocolate square located in the top-left at location (0,0). The process involves leaving no other option for the other player.
 
 Using a recursive algorithm to play the game, This Chomp crate implements an AI agent that plays against a human player.
@@ -126,13 +128,13 @@ Reference for I/O: https://doc.rust-lang.org/stable/book/ch12-01-accepting-comma
 Notes:
 Got error: 'expected identifier, found keyword' --> It took me a second to realize what this meant until I realized the compiler uses the keyword *move* in regard to ownership. The suggestion was to create r#move, but I figured it would be more readable to just change the name of the member in the struct.
 
+:exclamation: To-do: Mention fun ownership/borrowing/lifetime struggles.
+
 ---
 
 <!-- Update EVerything below -->
-
-## WIP
->
-> However, I created my own rust docs.
+WIP
+<!---
 In the book, I also utilized ```cargo fix``` to fix compilation errors more efficiently. Even though it was generally minor changes, they were still changes I might have missed otherwise.
 
 ```text
@@ -162,6 +164,7 @@ $ cargo clippy --all
 ```
 
 Additionally, `cargo clippy` returned no errors.
+-->
 
 ## Resources
 
@@ -176,7 +179,7 @@ The following resources were used in this project:
 
 ```zsh
 # Clone this project
-$ git clone https://github.com/CordetG/rust_programming/chomp
+$ git clone https://github.com/CordetG/chomp
 
 # Access
 $ cd chomp/chomp-bin
