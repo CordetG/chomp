@@ -28,6 +28,4 @@ fn main() {
     let BoardSize(m, n) = BoardSize::from((game_box[1].to_owned(), game_box[2].to_owned()));
 
     let chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
-
-    // if &args[1] == "chomp" then index equals (&args[2], &args[3])
 }
