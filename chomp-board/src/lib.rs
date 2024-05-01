@@ -1,3 +1,9 @@
+//! # Chomp Board
+//!
+//! THe chomp-board library crate provides implementation to handle the board for the game 'Chomp'.
+//! This library manages a Board as a HashSet of positions. The primary functions are
+//! for displaying, formatting, and adjusting the board based on a player's moves.
+
 #![allow(unused_imports)]
 #![allow(dead_code, unused_variables)]
 use std::collections::HashSet;
@@ -11,6 +17,8 @@ pub struct Position(String, u8);
 pub struct BoardSize(pub String, pub String);
 
 #[derive(Clone)]
+/// ## Board
+///
 /// The `Board` struct represents a game board with a specific size, state, and optional player move.
 ///
 /// Properties:
@@ -49,19 +57,23 @@ impl Board {
         todo!("create a new board state")
     }
 
-    /// The function `format_board` takes a HashSet of strings, converts them to a vector of string
-    /// references, and then joins them with commas into a single string.
+    /// The function `format_board` takes a HashSet of Positions, formats them as strings, and joins them
+    /// with commas.
     ///
     /// Arguments:
     ///
-    /// * `to_display`: The `to_display` parameter is a reference to a `HashSet` containing `String` values.
+    /// * `to_display`: The `to_display` parameter is a reference to a `HashSet` containing elements of type
+    /// `Position`.
     ///
     /// Returns:
     ///
-    /// The `format_board` function returns a formatted string that joins the elements of the
-    /// `HashSet<String>` `to_display` with a comma and space in between each element.
-    pub fn format_board(to_display: &HashSet<String>) -> String {
-        let display_board: Vec<&str> = to_display.iter().map(String::as_ref).collect();
+    /// A string is being returned, which represents the formatted board with positions from the input
+    /// `HashSet<Position>`.
+    pub fn format_board(to_display: &HashSet<Position>) -> String {
+        let display_board: Vec<String> = to_display
+            .iter()
+            .map(|p: &Position| (format!("{p}")))
+            .collect();
         display_board.join(", ")
     }
 }
@@ -119,6 +131,20 @@ impl std::fmt::Display for BoardSize {
     /// The `fmt` method is returning a `Result<(), std::fmt::Error>`. This means that it is returning a
     /// `Result` enum where the success type is `()` (an empty tuple) and the error type is
     /// `std::fmt::Error`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use chomp_board::*;
+    ///
+    /// let args: Vec<String> = vec!["--".to_string(),"4".to_string(),"5".to_string()];
+    /// let arg_box: Box<Vec<String>> = Box::new(args);
+    ///
+    /// let game_box: Box<Vec<String>> = arg_box.clone();
+    ///
+    /// let BoardSize(m, n) = BoardSize::from((game_box[1].to_owned(), game_box[2].to_owned()));
+    /// assert_eq!(format!("{}", BoardSize(m,n)), "Board Size: 4 x 5");
+    /// ```
     fn fmt(&self, f: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
         write!(f, "Board Size: {} x {}", self.0, self.1)
     }
