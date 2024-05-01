@@ -20,6 +20,8 @@ fn main() {
 
     let args: Vec<String> = env::args().collect();
 
+    println!("Rows: {} x Columns: {}", args[1], args[2]);
+
     let arg_box: Box<Vec<String>> = Box::new(args);
     let game_box: Box<Vec<String>> = arg_box.clone();
 
