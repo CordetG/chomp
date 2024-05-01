@@ -8,7 +8,7 @@ pub struct Position(String, u8);
 
 // Board Size type as m x n
 #[derive(Clone)]
-pub struct BoardSize(&'static str, &'static str);
+pub struct BoardSize(pub String, pub String);
 
 #[derive(Clone)]
 pub struct Board {
@@ -17,19 +17,11 @@ pub struct Board {
     player_move: Option<Position>,
 }
 
-trait Game {
+pub trait Game {
     fn new(def_size: BoardSize) -> Self;
 }
 
 impl Board {
-    pub fn new(size: BoardSize, player_move: Option<Position>) -> Self {
-        Board {
-            size,
-            state: HashSet::new(),
-            player_move,
-        }
-    }
-
     pub fn chomped_board(current: &mut Board, chomped: Board) {
         for pos in current.state.difference(&chomped.state) {
             println!("Position: {:?}", pos);
@@ -46,6 +38,12 @@ impl Board {
 impl std::fmt::Display for Position {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
         write!(f, "({}, {})", self.0, self.1)
+    }
+}
+
+impl From<(String, String)> for BoardSize {
+    fn from(value: (String, String)) -> Self {
+        BoardSize(value.0, value.1)
     }
 }
 
