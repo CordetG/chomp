@@ -2,6 +2,7 @@
 
 use chomp_board::*;
 use std::env;
+use std::io;
 
 const TITLE: &str = "
 +===========+
@@ -28,4 +29,10 @@ fn main() {
     let BoardSize(m, n) = BoardSize::from((game_box[1].to_owned(), game_box[2].to_owned()));
 
     let chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
+
+    let mut user_turn = String::new();
+    io::stdin()
+        .read_line(&mut user_turn)
+        .expect("Did not recieve user input");
+    print!("user input: {}", user_turn);
 }
