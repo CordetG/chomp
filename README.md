@@ -137,7 +137,7 @@ Got error: 'expected identifier, found keyword' --> It took me a second to reali
 
 Testing BoardSize fmt implementation:
 
-```zsh
+```sh
 $ cargo test
 
    Doc-tests chomp-board
