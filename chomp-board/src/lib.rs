@@ -181,18 +181,20 @@ impl Game for Board {
         }
     }
 
-    //#[allow(clippy::needless_range_loop)]
+    //m = row, n = col
     fn default_state(&mut self, size: BoardSize) {
-        let m = size.0 as usize;
-        for (row, col) in COLMS.iter().enumerate().take(m) {
-            self.state.insert(Position(col.to_string(), row as u8));
+        let m: usize = size.0 as usize;
+        let n: usize = size.1 as usize;
+
+        for row in 1..=m {
+            for (col, alpha) in COLMS.iter().take(n).enumerate() {
+                self.state.insert(Position(alpha.to_string(), row as u8));
+            }
         }
 
         for pos in &self.state {
             println!("{} ", pos);
         }
-
-        todo!("Add second dimension loop");
     }
 }
 
