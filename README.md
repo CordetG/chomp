@@ -77,7 +77,7 @@ A move is represented by `chomp i j`. The total possible on non-losing moves is 
 
 **Process**
 
-```zsh
+```sh
 $ cargo new --lib chomp-board
     Created library `chomp-board` package
 
@@ -94,7 +94,7 @@ chomp/chomp$ cargo build
 
 I followed the program guidelines from the rust-programming class:
 
-```zsh
+```sh
 Chomp is played on a terminal interface.
 
 $ What is the board size?: <m> <n>
@@ -109,9 +109,63 @@ $ For non-winning moves: <Enter the furthest-right piece in the lowermost, nonem
 This will stall a losing move - allowing more time for the other player to make a mistake.
 ```
 
+### How it went 
+
+#### Errors
+
+Notes:
+Got error: 'expected identifier, found keyword' --> It took me a second to realize what this meant until I realized the compiler uses the keyword *move* in regard to ownership. The suggestion was to create r#move, but I figured it would be more readable to just change the name of the member in the struct.
+
+:exclamation: To-do: Mention fun ownership/borrowing/lifetime struggles.
+
+Index out of bounds error:
+
+```sh
+──> cargo run -- 4 5
+
+
++===========+
+|           |
+|+-+-+-+-+-+|
+||C|h|o|m|p||
+|+-+-+-+-+-+|
+|           |
++===========+
+
+Rows: 4 x Columns: 5
+thread 'main' panicked at <path>/chomp-board/src/lib.rs:186:34:
+index out of bounds: the len is 11 but the index is 11
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+# Clippy's advice when commenting out '#[allow(needless_loop)]'
+consider using an iterator and enumerate(): `(alpha, <item>)`, `clone_rows.iter().enumerate().take(m + 1).skip(1)`
+
+# This was funny
+... iterators are lazy and do nothing unless consumed
+```
+
+Once I fixed the for-loop after realizing I overcomplicated things, go-figure, I tested the printing of the hashset and it did not turn out as expected. I understand that hashsets print in an arbitrary order, so that was not the concern. 
+
+It was the 4 entries when I expected 20, until I realized I had left off trying to get the first dimension functional prior to adding the second dimension. 
+
+So I learned my lesson of leaving todo()s regularly because I will forget, even when I tell myself I will remember -- I never will.
+
+```sh
+──> cargo run -- 4 5
+
+...
+
+Rows: 4 x Columns: 5
+
+(c, 2) 
+(d, 3) 
+(a, 0) 
+(b, 1)
+```
+
 ## Run
 
-```zsh
+```sh
 # "--" indicates commands for the program rather than cargo.
 # The first command (Vec index 0) is the binary. 
 # The following commands are the user input.
@@ -123,15 +177,6 @@ $ cargo run -- <m> <n>
 ```
 
 Reference for I/O: https://doc.rust-lang.org/stable/book/ch12-01-accepting-command-line-arguments.html
-
----
-
-Notes:
-Got error: 'expected identifier, found keyword' --> It took me a second to realize what this meant until I realized the compiler uses the keyword *move* in regard to ownership. The suggestion was to create r#move, but I figured it would be more readable to just change the name of the member in the struct.
-
-:exclamation: To-do: Mention fun ownership/borrowing/lifetime struggles.
-
----
 
 ## Tests
 
@@ -150,7 +195,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ## Doc-Comments
 
-```zsh
+```sh
 # Open the rust docs
 $ cargo doc --open
 
@@ -199,22 +244,6 @@ The following resources were used in this project:
 - [Rust std](https://doc.rust-lang.org/std/index.html)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Ascii Art Generator](https://www.asciiart.eu/text-to-ascii-art)
-
-## Starting
-
-```zsh
-# Clone this project
-$ git clone https://github.com/CordetG/chomp
-
-# Access
-$ cd chomp/chomp-bin
-
-# Run the project
-$ cargo run chomp
-
-# Test the project
-$ cargo test
-```
 
 ## License
 
