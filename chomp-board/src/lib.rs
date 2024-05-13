@@ -191,6 +191,8 @@ impl Game for Board {
         for pos in &self.state {
             println!("{} ", pos);
         }
+
+        todo!("Add second dimension loop");
     }
 }
 
