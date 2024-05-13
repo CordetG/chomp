@@ -163,6 +163,39 @@ Rows: 4 x Columns: 5
 (b, 1)
 ```
 
+After adding the 2nd dimension loop and adjusting the output values: 
+
+```sh
+
+──> cargo run -- 4 5
+
+...
+
+Rows: 4 x Columns: 5
+(a, 4) 
+(c, 4) 
+(b, 4) 
+(d, 4) 
+(e, 3) 
+(c, 1) 
+(a, 2) 
+(b, 3) 
+(d, 1) 
+(a, 3) 
+(d, 2) 
+(b, 1) 
+(a, 1) 
+(c, 3) 
+(e, 1) 
+(c, 2) 
+(e, 4) 
+(b, 2) 
+(d, 3) 
+(e, 2) 
+
+# Yay! it is output as expected -- in an arbitrary order anyway. 
+```
+
 ## Run
 
 ```sh
