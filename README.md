@@ -7,6 +7,8 @@ Professor: Bart Massey
 
 ## About
 
+The chomp game is developed using [algabraic notation, as in chess](https://www.chessjournal.com/chess-notation/) -- with alphabet characters as the columns and digits as the rows. 
+
 :exclamation: Description referenced from the Canvas assignment page.
 
 Chomp is a strategy-game played by two players whose main goal is to get the opposing player to eat the *poisoned* chocolate square located in the top-left at location (0,0). The process involves leaving no other option for the other player.
