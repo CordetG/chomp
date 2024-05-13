@@ -6,9 +6,10 @@
 
 #![allow(unused_imports)]
 #![allow(dead_code, unused_variables)]
+use core::clone;
 use std::collections::HashSet;
 
-const ROWS: [&str; 10] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+const COLMS: [&str; 11] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
 
 /// Tuple type for the board position
 #[derive(PartialEq, Eq, Hash, Debug, Clone)]
@@ -16,7 +17,7 @@ pub struct Position(String, u8);
 
 /// Board Size type as m x n
 #[derive(Clone)]
-pub struct BoardSize(pub String, pub String);
+pub struct BoardSize(pub u8, pub u8);
 
 #[derive(Clone)]
 /// ## Board
@@ -35,7 +36,7 @@ pub struct BoardSize(pub String, pub String);
 /// the player did not submit a move.
 pub struct Board {
     size: BoardSize,
-    state: HashSet<Position>,
+    pub state: HashSet<Position>,
     player_move: Option<Position>,
 }
 
@@ -48,7 +49,7 @@ pub trait Game {
     /// of the implementing type (`Self`).
     fn new(def_size: BoardSize) -> Self;
 
-    fn default_state(&mut self, size: BoardSize, state: HashSet<Position>);
+    fn default_state(&mut self, size: BoardSize);
 }
 
 /// The `impl Board { ... }` block in the Rust code snippet is implementing additional methods for the
@@ -114,7 +115,10 @@ impl From<(String, String)> for BoardSize {
     ///
     /// An instance of the `BoardSize` struct with the values from the tuple `value` passed as parameters.
     fn from(value: (String, String)) -> Self {
-        BoardSize(value.0, value.1)
+        BoardSize(
+            value.0.parse::<u8>().unwrap(),
+            value.1.parse::<u8>().unwrap(),
+        )
     }
 }
 
@@ -177,15 +181,16 @@ impl Game for Board {
         }
     }
 
-    #[allow(clippy::needless_range_loop)]
-    fn default_state(&mut self, size: BoardSize, state: HashSet<Position>) {
-        let clone_rows = ROWS;
-        let m = size.0.as_bytes().as_ptr() as usize;
-        for alpha in 1..=m {
-            self.state
-                .insert(Position(clone_rows[alpha].to_string(), 1));
+    //#[allow(clippy::needless_range_loop)]
+    fn default_state(&mut self, size: BoardSize) {
+        let m = size.0 as usize;
+        for (row, col) in COLMS.iter().enumerate().take(m) {
+            self.state.insert(Position(col.to_string(), row as u8));
         }
-        todo!("add int values 1..n to Position")
+
+        for pos in &self.state {
+            println!("{} ", pos);
+        }
     }
 }
 
