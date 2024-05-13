@@ -28,7 +28,9 @@ fn main() {
 
     let BoardSize(m, n) = BoardSize::from((game_box[1].to_owned(), game_box[2].to_owned()));
 
-    let chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
+    let mut chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
+
+    <chomp_board::Board as chomp_board::Game>::default_state(&mut chomp_bar, BoardSize(m, n));
 
     let mut user_turn = String::new();
     io::stdin()
