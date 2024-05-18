@@ -96,8 +96,8 @@ chomp/chomp$ cargo build
 
 I followed the program guidelines from the rust-programming class:
 
-```sh
-Chomp is played on a terminal interface.
+```text
+# Chomp is played on a terminal interface.
 
 $ What is the board size?: <m> <n>
 
@@ -174,6 +174,7 @@ After adding the 2nd dimension loop and adjusting the output values:
 ...
 
 Rows: 4 x Columns: 5
+
 (a, 4) 
 (c, 4) 
 (b, 4) 
@@ -197,6 +198,20 @@ Rows: 4 x Columns: 5
 
 # Yay! it is output as expected -- in an arbitrary order anyway. 
 ```
+
+Given a 4 x 5 input:
+
+Trying to create a display-board -- for the user to see a board -- was returning duplicates of 4.
+So, I printed the extracted rows and columns:
+
+```sh
+Columns: ['a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd', 'd', 'd', 'e', 'e', 'e', 'e']
+Rows: [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]
+```
+
+It makes sense because I was trying to display using a matrix -- as a 2D vec so since each letter was split from the Position type, there would be 4. The solution, to remove the duplicate letters.
+
+Clippy being helpful: `consider using: for (s, r) in row.iter().enumerate()`
 
 ## Run
 
