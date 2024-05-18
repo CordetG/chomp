@@ -7,13 +7,14 @@
 #![allow(unused_imports)]
 #![allow(dead_code, unused_variables)]
 use core::clone;
+use itertools::Itertools;
 use std::collections::HashSet;
 
 const COLMS: [&str; 11] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
 
 /// Tuple type for the board position
-#[derive(PartialEq, Eq, Hash, Debug, Clone)]
-pub struct Position(String, u8);
+#[derive(PartialEq, Eq, Hash, Debug, Clone, PartialOrd, Ord)]
+pub struct Position(char, u8);
 
 /// Board Size type as m x n
 #[derive(Clone)]
@@ -52,14 +53,17 @@ pub trait Game {
     fn default_state(&mut self, size: BoardSize);
 }
 
-/// The `impl Board { ... }` block in the Rust code snippet is implementing additional methods for the
-/// `Board` struct.
+/// The `impl Board { ... }` block is implementing additional methods for the `Board` struct.
 impl Board {
-    pub fn chomped_board(current: &mut Board, chomped: Board) {
-        for pos in current.state.difference(&chomped.state) {
+    pub fn chomped_board(current: &mut Board, chomped: Board) -> HashSet<Position> {
+        let new_state: HashSet<Position> =
+            current.state.difference(&chomped.state).cloned().collect();
+
+        for pos in new_state.iter() {
             println!("Position: {:?}", pos);
         }
-        todo!("create a new board state")
+
+        new_state
     }
 
     /// The function `format_board` takes a HashSet of Positions, formats them as strings, and joins them
@@ -74,12 +78,37 @@ impl Board {
     ///
     /// A string is being returned, which represents the formatted board with positions from the input
     /// `HashSet<Position>`.
-    pub fn format_board(to_display: &HashSet<Position>) -> String {
-        let display_board: Vec<String> = to_display
-            .iter()
-            .map(|p: &Position| (format!("{p}")))
-            .collect();
-        display_board.join(", ")
+    pub fn format_board(to_display: &HashSet<Position>) {
+        let mut board_vec: Vec<_> = to_display.iter().collect();
+        board_vec.sort();
+        let mut col: Vec<_> = board_vec.iter().map(|pos| pos.0).collect();
+        col = col.into_iter().unique().collect();
+        println!("Columns: {:?}", col);
+        let mut row: Vec<_> = board_vec.iter().map(|pos| pos.1).collect();
+        row = row.into_iter().unique().collect();
+        println!("Rows: {:?}", row);
+        // Find the dimensions m x n of the matrix
+        let msize: usize = row.len();
+        let nsize: usize = col.len();
+        let mut s = 0;
+        let mut t = 0;
+
+        let mut matrix: Vec<Vec<(char, u8)>> = vec![vec![(' ', 0); nsize]; msize];
+
+        #[allow(clippy::needless_range_loop, clippy::explicit_counter_loop)]
+        for r in &row {
+            for c in &col {
+                matrix[s][t] = (*c, *r);
+                t += 1;
+            }
+            s += 1;
+            t = 0;
+        }
+
+        println!("\n (a, 1) is poisoned! \n");
+        for i in &matrix {
+            println!("{:?}", i);
+        }
     }
 }
 
@@ -188,13 +217,14 @@ impl Game for Board {
 
         for row in 1..=m {
             for (col, alpha) in COLMS.iter().take(n).enumerate() {
-                self.state.insert(Position(alpha.to_string(), row as u8));
+                self.state.insert(Position(
+                    alpha.to_string().chars().next().unwrap(),
+                    row as u8,
+                ));
             }
         }
 
-        for pos in &self.state {
-            println!("{} ", pos);
-        }
+        Board::format_board(&self.state);
     }
 }
 
