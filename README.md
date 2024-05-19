@@ -11,7 +11,7 @@ The chomp game is developed using [algabraic notation, as in chess](https://www.
 
 :exclamation: Description referenced from the Canvas assignment page.
 
-Chomp is a strategy-game played by two players whose main goal is to get the opposing player to eat the *poisoned* chocolate square located in the top-left at location (0,0). The process involves leaving no other option for the other player.
+Chomp is a strategy-game played by two players whose main goal is to get the opposing player to eat the *poisoned* chocolate square located in the top-left at location (0,0) -- or (a, 1) in my design. The process involves leaving no other option for the other player.
 
 Using a recursive algorithm to play the game, This Chomp crate implements an AI agent that plays against a human player.
 
@@ -68,12 +68,44 @@ A player loses when the poisoned square at `(0,0)` is that player's only move - 
 
 A move is represented by `chomp i j`. The total possible on non-losing moves is `(m * n) - 1`.
 
+## How to Play
+
+To begin run `──> cargo run -- <number of rows> <number of columns>`.  
+
+Example: `──> cargo run -- 4 5` which creates a 4 x 5 board and the starting output will look like this:
+
+```sh
+
++===========+
+|           |
+|+-+-+-+-+-+|
+||C|h|o|m|p||
+|+-+-+-+-+-+|
+|           |
++===========+
+
+Rows: 4 x Columns: 5
+Columns: ['a', 'b', 'c', 'd', 'e']
+Rows: [1, 2, 3, 4]
+
+ (a, 1) is poisoned! 
+
+[('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1)]
+[('a', 2), ('b', 2), ('c', 2), ('d', 2), ('e', 2)]
+[('a', 3), ('b', 3), ('c', 3), ('d', 3), ('e', 3)]
+[('a', 4), ('b', 4), ('c', 4), ('d', 4), ('e', 4)]
+```
+
+## <!-- Then for each turn -->
+
+:exclamation: For each turn: ...TODO
+
 ## Features
 
-- [ ] Takes command line input
-- [ ] Passed all tests implemented
-- [ ] Formatted with `cargo fmt`
-- [ ] Passed `cargo clippy`
+- [X] Takes command line input
+- [X] Passed all tests implemented
+- [X] Formatted with `cargo fmt`
+- [X] Passed `cargo clippy`
 
 ## Methods
 
@@ -99,12 +131,6 @@ I followed the program guidelines from the rust-programming class:
 ```text
 # Chomp is played on a terminal interface.
 
-$ What is the board size?: <m> <n>
-
-Repeat
-$ <Current board state>
-$ Input a move: <m> <n>
-
 Strategy
 $ <Entered move is a winning move>
 $ For non-winning moves: <Enter the furthest-right piece in the lowermost, nonempty row>
@@ -112,6 +138,27 @@ This will stall a losing move - allowing more time for the other player to make 
 ```
 
 ### How it went 
+
+#### Design
+
+- **Dispay Board vs. board in memory**:
+    </br>
+    > I used a HashSet for creating, cloning, and changing board states behind-the-scenes. Using a HashSet has nice features and better efficency than say, using an array or Vec. I also noticed the `Difference` function which can return the difference of the current board with a new board -- in other words, the next board state with a move implemented -- and return the resulting board. Which is quite handy.
+    >
+    > The HashSet is not necessarily user-readable when displaying all of it's contents, unless you just want a list -- but in this context reading a list of positions in a random order is kind of confusing. Maybe a good feature if you want to challenge your cognitive flexability.  
+    > ... So, I created a multi-dimensional Vec of the sorted values that is read from the current HashSet so the user can pick their next move more easily. 
+    >
+    > As the *Master of Over-Thinking* -- as I rewrote this sentence about 5 times -- I could have just removed the complexity of converting a HashSet to a Vec by formatting a display for the HashSet that would be user-readable for the board, but I kept over-analyzing *how* to do that. Displaying a Vec or array is second-nature at this point so that is why I went with the conversion route. 
+    >
+    > Given more time, I would probably clean up the code so the extra data-structures are not needed.
+
+- **Positions**
+    </br>
+    > *Would it have been easier to just stick to index positions such as (0,0)?* Absolutely. 
+    > In fact, I spent **way** too much time trying to implement it with algabraic notation. *Why?*
+    > I like adding complexity; I unconsciously feel the need to spice it up and add extra steps; I have a rebellious trait -- lol -- and IDK....issues. 
+    >
+    > If I were to go back in time and tell past-me to keep-it-simple, I would. I *objectively* know it would have been faster and I *should* have done it that way to begin with... but I liked the idea.
 
 #### Errors
 
@@ -144,6 +191,7 @@ consider using an iterator and enumerate(): `(alpha, <item>)`, `clone_rows.iter(
 
 # This was funny
 ... iterators are lazy and do nothing unless consumed
+# Bad Joke: Sounds like clippy has a new philosophy -- eat the lazy <_> that do nothing.
 ```
 
 Once I fixed the for-loop after realizing I overcomplicated things, go-figure, I tested the printing of the hashset and it did not turn out as expected. I understand that hashsets print in an arbitrary order, so that was not the concern. 
@@ -201,7 +249,7 @@ Rows: 4 x Columns: 5
 
 Given a 4 x 5 input:
 
-Trying to create a display-board -- for the user to see a board -- was returning duplicates of 4.
+Trying to create a display-board -- for the user to see a board -- was returning 4 copies of each row.
 So, I printed the extracted rows and columns:
 
 ```sh
@@ -209,11 +257,11 @@ Columns: ['a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd', 
 Rows: [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]
 ```
 
-It makes sense because I was trying to display using a matrix -- as a 2D vec so since each letter was split from the Position type, there would be 4. The solution, to remove the duplicate letters.
+It makes sense because I was trying to display using a matrix -- as a 2D vec so since each letter was split from the Position type, there would be 4. The solution, to remove the duplicate letters and numbers.
 
 Clippy being helpful: `consider using: for (s, r) in row.iter().enumerate()`
 
-## Run
+#### Things I learned
 
 ```sh
 # "--" indicates commands for the program rather than cargo.
@@ -250,40 +298,6 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 $ cargo doc --open
 
 ```
-
-<!-- Update EVerything below -->
-WIP
-<!---
-In the book, I also utilized ```cargo fix``` to fix compilation errors more efficiently. Even though it was generally minor changes, they were still changes I might have missed otherwise.
-
-```text
-Checking toy_rsa_lib v0.1.0
-    Fixed examples/toyrsa.rs (1 fix)
-    Finished dev [unoptimized + debuginfo] target(s) in 1.18s
-```
-
->**How it Went**\
-Overall, it went pretty well. The point in which I got stuck for an insurmountable amount of time was when I went to run the tests. My ```test_decrypt``` just would not pass. I tried changing the logic, rewriting it a different way, ran through the documents and the algorithm over and over. I could not seem to overcome it.
-
->However, eventually I did prevail, and I misunderstood lambda function how that was affecting the private keys. This made sense that the decrypt() function was affected because the private keys are used for decryption and the public key for the encryption.
-
->The error I came across, was misunderstanding that I needed to implement p-1 and q-1 when working with the private keys. I was originally passing in p and q. This miniscule oversight was the largest hurtle I had come across.
-
->Other than that, the assignment was pretty fun. I continue to learn new things in rust, and as far as this assignment goes, I have a better understanding of libraries and cryptography.
-
->**Testing**\
-I utilized the tests from Canvas including `cargo run 2 20 17` where `2^20 modulo 17 = 16`. It was difficult to test the error-handling though because the program will panic if there is faulty input.
-
->Testing was implemented with `cargo test`. The modexp results for both tests passed:
-
-```zsh
-$ cargo clippy --all
-    Checking toy-rsa v0.1.0
-    Finished dev [unoptimized + debuginfo] target(s) in 0.63s
-```
-
-Additionally, `cargo clippy` returned no errors.
--->
 
 ## Resources
 
