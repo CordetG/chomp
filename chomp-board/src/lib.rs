@@ -14,7 +14,7 @@ const COLMS: [&str; 11] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"
 
 /// Tuple type for the board position
 #[derive(PartialEq, Eq, Hash, Debug, Clone, PartialOrd, Ord)]
-pub struct Position(char, u8);
+pub struct Position(pub char, pub u8);
 
 /// Board Size type as m x n
 #[derive(Clone)]
@@ -38,7 +38,7 @@ pub struct BoardSize(pub u8, pub u8);
 pub struct Board {
     size: BoardSize,
     pub state: HashSet<Position>,
-    player_move: Option<Position>,
+    pub player_move: Option<Position>,
 }
 
 /// The `pub trait Game` defines a trait named `Game` that includes a method signature `fn new(def_size:
