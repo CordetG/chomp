@@ -8,3 +8,5 @@ edition = "2021"
 [dependencies]
 clearscreen = "3.0.0"
 chomp-board = {path = "../chomp-board"}
+itertools = "0.13.0"
+min-max = "0.1.8"

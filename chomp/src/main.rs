@@ -1,10 +1,12 @@
 #![allow(unused_imports, unused_variables)]
 
-pub mod agent;
-
 use chomp_board::*;
 use std::env;
 use std::io;
+use std::io::Write;
+
+mod agent;
+pub use agent::*;
 
 const TITLE: &str = "
 +===========+
@@ -33,9 +35,14 @@ fn main() {
     let mut chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
     <chomp_board::Board as chomp_board::Game>::default_state(&mut chomp_bar, BoardSize(m, n));
 
-    let mut user_turn = String::new();
+    println!("User Turn \n Enter as `chomp <alpha-col> <num-row>`");
+
+    let mut user_turn: String = String::new();
+
     io::stdin()
         .read_line(&mut user_turn)
-        .expect("Did not recieve user input");
-    print!("user input: {}", user_turn);
+        .expect("Did not recieve user input.");
+    print!("User Move: {}", user_turn);
+
+    clearscreen::clear().expect("failed to clear screen");
 }
