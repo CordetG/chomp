@@ -55,7 +55,7 @@ The `main.rs` is the binary application file that implements the AI player. That
 Actions:
 
 - Check the board state
-  - A board state at `(0,0)` indicates the end of the game - a loss.
+  - A board state at `(a,1)` indicates the end of the game - a loss.
   - Any other board state indicates a possible move.
 - For each move:
   - Create a new board
@@ -64,7 +64,8 @@ Actions:
     - continue
   - else
     - return the winning move
-A player loses when the poisoned square at `(0,0)` is that player's only move - the last square on the board.
+
+A player loses when the poisoned square at `(a, 1)` is that player's only move - the last square on the board.
 
 A move is represented by `chomp i j`. The total possible on non-losing moves is `(m * n) - 1`.
 
