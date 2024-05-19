@@ -1,5 +1,7 @@
 #![allow(unused_imports, unused_variables)]
 
+pub mod agent;
+
 use chomp_board::*;
 use std::env;
 use std::io;
