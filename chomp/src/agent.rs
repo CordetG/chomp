@@ -4,30 +4,16 @@ use chomp_board::*;
 use itertools::{max, Itertools};
 use std::collections::HashSet;
 
-/*
-winning-move(posn):
-    for each remaining row r
-        for each remaining column c in r
-            if r = 0 and c = 0
-                continue
-            p ← copy of posn
-            chomp r, c from p
-            m ← winning-move(p)
-            if no winning move is returned
-                return the move r, c
-   return winning move
-*/
-
 /// The function `winning_move` recursively checks for a winning move in a set of positions in a game.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `posn`: The `posn` parameter is a reference to a `HashSet` containing `Position` objects. Each
 /// `Position` object represents a position on a game board, with a tuple `(char, u8)` where the first
 /// element is a character representing a column (e.g., 'a') and the second element represents a row.
-/// 
+///
 /// Returns:
-/// 
+///
 /// The `winning_move` function is returning an `Option` containing a reference to a `Position` if there
 /// is a winning move available in the given set of positions. If there is no winning move available, it
 /// returns `None`.
