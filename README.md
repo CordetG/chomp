@@ -287,6 +287,16 @@ c: b, r: 2
 # When increasing the index split to 2:
 chomp chomp, col b2, row val: , row-len: 1
 c: b2, r: 
+
+# Solution: truncate the `row` value to 1. 
+...
+ Enter as `chomp <alpha-col> <num-row>`
+chomp b 2
+User Move: chomp b 2
+User Move: chompb2
+chomp chomp, col b, row val: 2, row-len: 1
+c: b, r: 2
+# It works!
 ```
 
 I know I probably didn't *need* to test that, but at least I have a decent idea of where to start fixing the issue.
