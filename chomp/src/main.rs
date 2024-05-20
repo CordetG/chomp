@@ -35,14 +35,25 @@ fn main() {
     let mut chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
     <chomp_board::Board as chomp_board::Game>::default_state(&mut chomp_bar, BoardSize(m, n));
 
+    // play game
+
+    // user turn
     println!("User Turn \n Enter as `chomp <alpha-col> <num-row>`");
 
     let mut user_turn: String = String::new();
-
+    // take in std input
     io::stdin()
         .read_line(&mut user_turn)
         .expect("Did not recieve user input.");
     print!("User Move: {}", user_turn);
+    // cut out spaces
+    user_turn.retain(|c| c != ' ');
+    print!("User Move: {}", user_turn);
+    // split off string input user_turn = chomp, col = '<letter>', row = '<num>'
+    let mut col: String = user_turn.split_off(4);
+    let row: String = col.split_off(1);
+
+    let Position(c, r) = Position::from((col, row));
 
     clearscreen::clear().expect("failed to clear screen");
 }
