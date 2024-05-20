@@ -1,6 +1,7 @@
 #![allow(unused_imports, unused_variables)]
 
 use chomp_board::*;
+use std::collections::HashSet;
 use std::env;
 use std::io;
 use std::io::Write;
@@ -35,10 +36,12 @@ fn main() {
     let mut chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
     <chomp_board::Board as chomp_board::Game>::default_state(&mut chomp_bar, BoardSize(m, n));
 
+    let mut chomp_bar_clone: Board = chomp_bar.clone();
+
     // play game
 
     // user turn
-    println!("User Turn \n Enter as `chomp <alpha-col> <num-row>`");
+    println!("User Turn \nEnter as `chomp <alpha-col> <num-row>`");
 
     let mut user_turn: String = String::new();
     // take in std input
@@ -54,15 +57,12 @@ fn main() {
     let mut row: String = col.split_off(1);
     row.truncate(1);
 
-    println!(
-        "chomp {}, col {}, row val: {}, row-len: {}",
-        user_turn,
-        col,
-        row,
-        row.len()
-    );
-
     let Position(c, r) = Position::from((col, row));
+
+    agent::chomp(&mut chomp_bar_clone.state, Position(c, r));
+
+    // Error: function displaying only the original board
+    Board::format_board(&chomp_bar_clone);
 
     //clearscreen::clear().expect("failed to clear screen");
 }

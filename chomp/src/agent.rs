@@ -33,9 +33,9 @@ fn winning_move(posn: &HashSet<Position>) -> Option<&Position> {
 }
 
 /// The function `chomp` removes positions from a HashSet based on specified criteria.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `posn`: The `posn` parameter is a mutable HashSet containing positions. Each position is
 /// represented as a tuple of two values (x, y) where x represents the column and y represents the row.
 /// The function `chomp` takes this HashSet as input and performs certain operations on it based on the
@@ -43,7 +43,7 @@ fn winning_move(posn: &HashSet<Position>) -> Option<&Position> {
 /// * `pos`: The `pos` parameter in the `chomp` function represents a position on a grid. It seems to be
 /// a tuple containing two elements, where the first element is the column (`pos.0`) and the second
 /// element is the row (`pos.1`).
-fn chomp(posn: &mut HashSet<Position>, pos: Position) {
+pub fn chomp(posn: &mut HashSet<Position>, pos: Position) {
     let start_row: u8 = pos.1;
     let row: Vec<_> = posn.iter().map(|pos| pos.1).collect();
     let end_row: u8 = max(row).unwrap();
