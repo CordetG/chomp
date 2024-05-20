@@ -153,9 +153,10 @@ impl From<(String, String)> for BoardSize {
 
 impl From<(String, String)> for Position {
     fn from(pos: (String, String)) -> Self {
+        println!("c: {}, r: {}", pos.0, pos.1);
         Position(
             pos.0.to_lowercase().chars().next().unwrap(),
-            pos.1.parse::<u8>().unwrap(),
+            pos.1.parse::<u8>().expect("u8 not returned\n"),
         )
     }
 }
