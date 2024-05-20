@@ -301,6 +301,12 @@ c: b, r: 2
 
 I know I probably didn't *need* to test that, but at least I have a decent idea of where to start fixing the issue.
 
+```sh
+# That capitalization....
+20  | let new_board: Hashset<Position> = Board::chomped_board(&mut chomp_bar, chomped_pieces);
+    |                ^^^^^^^ help: a struct with a similar name exists (notice the capitalization): `HashSet`
+```
+
 #### Things I learned
 
 ```sh
@@ -329,6 +335,17 @@ running 1 test
 test src/lib.rs - BoardSize::fmt (line 129) ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+# After returning a chomp board with a move:
+$ cargo test
+
+   Doc-tests chomp-board
+
+running 2 tests
+test src/lib.rs - Board::chomped_board (line 82) ... ok
+test src/lib.rs - BoardSize::fmt (line 227) ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
 ```
 
 ## Doc-Comments
