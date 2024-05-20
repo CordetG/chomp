@@ -100,9 +100,10 @@ impl Board {
     /// assert_eq!(new_board.contains(&Position('a', 1)), true);
     /// assert_eq!(new_board.contains(&Position('c', 2)), false);
     /// ```
-    pub fn chomped_board(current: &mut Board, chomped: HashSet<Position>) {
+    pub fn chomped_board(current: &mut Board, chomped: HashSet<Position>) -> HashSet<Position> {
         let new_state: HashSet<Position> = current.state.difference(&chomped).cloned().collect();
-        current.state = new_state;
+
+        new_state
     }
 
     /// The function `format_board` takes a HashSet of Positions, formats them as strings, and joins them
@@ -117,8 +118,8 @@ impl Board {
     ///
     /// A string is being returned, which represents the formatted board with positions from the input
     /// `HashSet<Position>`.
-    pub fn format_board(to_display: &Board) {
-        let mut board_vec: Vec<_> = to_display.state.iter().collect();
+    pub fn format_board(&self) {
+        let mut board_vec: Vec<_> = self.state.iter().collect();
         board_vec.sort();
         let mut col: Vec<_> = board_vec.iter().map(|pos| pos.0).collect();
         col = col.into_iter().unique().collect();
@@ -272,6 +273,6 @@ impl Game for Board {
             }
         }
 
-        Board::format_board(&self.clone());
+        Board::format_board(self);
     }
 }
