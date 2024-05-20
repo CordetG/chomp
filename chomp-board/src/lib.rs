@@ -10,6 +10,11 @@ use core::clone;
 use itertools::Itertools;
 use std::collections::HashSet;
 
+/// The line `const COLMS: [&str; 10] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];` is
+/// declaring a constant array named `COLMS` that contains string slices (`&str`) with a length of 10.
+/// Each element of the array represents a column identifier in the context of the Chomp game board. The
+/// identifiers are alphabetical letters from "a" to "j", which are commonly used to label columns on a
+/// game board or grid.
 const COLMS: [&str; 10] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 
 /// Tuple type for the board position
@@ -50,20 +55,54 @@ pub trait Game {
     /// of the implementing type (`Self`).
     fn new(def_size: BoardSize) -> Self;
 
+    /// The `fn default_state(&mut self, size: BoardSize);` function signature within the `Game` trait is
+    /// defining a method named `default_state` that takes a mutable reference to `self` (the `Board`
+    /// instance) and a `BoardSize` parameter named `size`.
     fn default_state(&mut self, size: BoardSize);
 }
 
 /// The `impl Board { ... }` block is implementing additional methods for the `Board` struct.
 impl Board {
-    pub fn chomped_board(current: &mut Board, chomped: Board) -> HashSet<Position> {
-        let new_state: HashSet<Position> =
-            current.state.difference(&chomped.state).cloned().collect();
-
-        for pos in new_state.iter() {
-            println!("Position: {:?}", pos);
-        }
-
-        new_state
+    /// The function `chomped_board` takes two Board structs, compares their states, and returns a HashSet
+    /// of Positions that are in the first Board but not in the second.
+    ///
+    /// Arguments:
+    ///
+    /// * `current`: The `current` parameter is a mutable reference to a `Board` struct.
+    /// * `chomped`: The `chomped` parameter in the `chomped_board` function is of type `HashSet<Position>`. It
+    /// represents the positions to be removed that will be used to update the `current` board state.
+    ///
+    /// Returns:
+    ///
+    /// The function `chomped_board` returns a `HashSet<Position>` containing the positions that are in the
+    /// `current` board state but not in the `chomped` board state.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use chomp_board::*;
+    /// use std::collections::HashSet;
+    ///
+    /// let args: Vec<String> = vec!["--".to_string(),"3".to_string(),"4".to_string()];
+    /// let arg_box: Box<Vec<String>> = Box::new(args);
+    ///
+    /// let game_box: Box<Vec<String>> = arg_box.clone();
+    ///
+    /// let BoardSize(m, n) = BoardSize::from((game_box[1].to_owned(), game_box[2].to_owned()));
+    ///
+    /// let mut chomp_bar: Board = chomp_board::Game::new(BoardSize(m, n));
+    /// <chomp_board::Board as chomp_board::Game>::default_state(&mut chomp_bar, BoardSize(m, n));
+    ///
+    /// let chomped_pieces: HashSet<Position> = HashSet::from([Position('c', 2), Position('d', 2), Position('c',3), Position('d', 3)]);
+    ///
+    /// let new_board: HashSet<Position> = Board::chomped_board(&mut chomp_bar, chomped_pieces);
+    ///
+    /// assert_eq!(new_board.contains(&Position('a', 1)), true);
+    /// assert_eq!(new_board.contains(&Position('c', 2)), false);
+    /// ```
+    pub fn chomped_board(current: &mut Board, chomped: HashSet<Position>) {
+        let new_state: HashSet<Position> = current.state.difference(&chomped).cloned().collect();
+        current.state = new_state;
     }
 
     /// The function `format_board` takes a HashSet of Positions, formats them as strings, and joins them
@@ -78,8 +117,8 @@ impl Board {
     ///
     /// A string is being returned, which represents the formatted board with positions from the input
     /// `HashSet<Position>`.
-    pub fn format_board(to_display: &HashSet<Position>) {
-        let mut board_vec: Vec<_> = to_display.iter().collect();
+    pub fn format_board(to_display: &Board) {
+        let mut board_vec: Vec<_> = to_display.state.iter().collect();
         board_vec.sort();
         let mut col: Vec<_> = board_vec.iter().map(|pos| pos.0).collect();
         col = col.into_iter().unique().collect();
@@ -153,7 +192,6 @@ impl From<(String, String)> for BoardSize {
 
 impl From<(String, String)> for Position {
     fn from(pos: (String, String)) -> Self {
-        println!("c: {}, r: {}", pos.0, pos.1);
         Position(
             pos.0.to_lowercase().chars().next().unwrap(),
             pos.1.parse::<u8>().expect("u8 not returned\n"),
@@ -234,22 +272,6 @@ impl Game for Board {
             }
         }
 
-        Board::format_board(&self.state);
-    }
-}
-
-// boilerplate template for generating tests ----------
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+        Board::format_board(&self.clone());
     }
 }
