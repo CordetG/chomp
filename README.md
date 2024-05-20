@@ -262,6 +262,35 @@ It makes sense because I was trying to display using a matrix -- as a 2D vec so 
 
 Clippy being helpful: `consider using: for (s, r) in row.iter().enumerate()`
 
+```sh
+# ParseIntError
+User Turn 
+ Enter as `chomp <alpha-col> <num-row>`
+chomp b 2
+User Move: chomp b 2
+User Move: chompb2
+chomp chomp, col b, row 2
+
+thread 'main' panicked at ...../chomp-board/src/lib.rs:158:33:
+called `Result::unwrap()` on an `Err` value: ParseIntError { kind: InvalidDigit }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+I suspected that it was a null terminator character at the end of the String causing the issue so I printed the length.
+
+Sure enough:
+
+```sh
+chomp chomp, col b, row val: 2, row-len: 2
+c: b, r: 2
+
+# When increasing the index split to 2:
+chomp chomp, col b2, row val: , row-len: 1
+c: b2, r: 
+```
+
+I know I probably didn't *need* to test that, but at least I have a decent idea of where to start fixing the issue.
+
 #### Things I learned
 
 ```sh
