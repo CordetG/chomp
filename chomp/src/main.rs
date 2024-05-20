@@ -50,8 +50,16 @@ fn main() {
     user_turn.retain(|c| c != ' ');
     print!("User Move: {}", user_turn);
     // split off string input user_turn = chomp, col = '<letter>', row = '<num>'
-    let mut col: String = user_turn.split_off(4);
+    let mut col: String = user_turn.split_off(5);
     let row: String = col.split_off(1);
+
+    println!(
+        "chomp {}, col {}, row val: {}, row-len: {}",
+        user_turn,
+        col,
+        row,
+        row.len()
+    );
 
     let Position(c, r) = Position::from((col, row));
 
