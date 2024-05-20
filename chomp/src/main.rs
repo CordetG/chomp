@@ -51,7 +51,8 @@ fn main() {
     print!("User Move: {}", user_turn);
     // split off string input user_turn = chomp, col = '<letter>', row = '<num>'
     let mut col: String = user_turn.split_off(5);
-    let row: String = col.split_off(1);
+    let mut row: String = col.split_off(1);
+    row.truncate(1);
 
     println!(
         "chomp {}, col {}, row val: {}, row-len: {}",
@@ -63,5 +64,5 @@ fn main() {
 
     let Position(c, r) = Position::from((col, row));
 
-    clearscreen::clear().expect("failed to clear screen");
+    //clearscreen::clear().expect("failed to clear screen");
 }
