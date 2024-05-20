@@ -10,7 +10,7 @@ use core::clone;
 use itertools::Itertools;
 use std::collections::HashSet;
 
-const COLMS: [&str; 11] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
+const COLMS: [&str; 10] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 
 /// Tuple type for the board position
 #[derive(PartialEq, Eq, Hash, Debug, Clone, PartialOrd, Ord)]
@@ -147,6 +147,15 @@ impl From<(String, String)> for BoardSize {
         BoardSize(
             value.0.parse::<u8>().unwrap(),
             value.1.parse::<u8>().unwrap(),
+        )
+    }
+}
+
+impl From<(String, String)> for Position {
+    fn from(pos: (String, String)) -> Self {
+        Position(
+            pos.0.to_lowercase().chars().next().unwrap(),
+            pos.1.parse::<u8>().unwrap(),
         )
     }
 }
