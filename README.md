@@ -307,6 +307,25 @@ I know I probably didn't *need* to test that, but at least I have a decent idea 
     |                ^^^^^^^ help: a struct with a similar name exists (notice the capitalization): `HashSet`
 ```
 
+The formatting board was only displaying the original board -- after a 1 turn test -- because I was creating the display based on the columns and rows and not on the actual positions that are left. Then After much frustration, the display was continuously wonky due to how I was accessing indices at a given point. But... I think I finally got a working display board... I just need to clean up the code now.
+
+```sh
+# Display board after a move
+...
+User Move: chomp c 2
+User Move: chompc2
+Columns: ['c', 'd']
+[Position('a', 1), Position('a', 2), Position('a', 3), Position('b', 1), Position('b', 2), Position('b', 3), Position('c', 1), Position('d', 1)]
+Columns in for: ['a', 'b', 'c', 'd']
+Rows: [1, 2, 3]
+
+ (a, 1) is poisoned! 
+
+[('a', 1), ('b', 1), ('c', 1), ('d', 1)]
+[('a', 2), ('b', 2), ('_', 0), ('_', 0)]
+[('a', 3), ('b', 3), ('_', 0), ('_', 0)]
+```
+
 #### Things I learned
 
 ```sh
