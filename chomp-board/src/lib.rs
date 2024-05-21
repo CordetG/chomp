@@ -106,43 +106,32 @@ impl Board {
         new_state
     }
 
-    /// The function `format_board` takes a HashSet of Positions, formats them as strings, and joins them
-    /// with commas.
-    ///
-    /// Arguments:
-    ///
-    /// * `to_display`: The `to_display` parameter is a reference to a `HashSet` containing elements of type
-    /// `Position`.
-    ///
-    /// Returns:
-    ///
-    /// A string is being returned, which represents the formatted board with positions from the input
-    /// `HashSet<Position>`.
     pub fn format_board(&self) {
         let mut board_vec: Vec<_> = self.state.iter().collect();
         board_vec.sort();
-        let mut col: Vec<_> = board_vec.iter().map(|pos| pos.0).collect();
+        println!("{:?}", board_vec);
+
+        let mut col: Vec<char> = board_vec.iter().map(|pos| pos.0).collect();
         col = col.into_iter().unique().collect();
-        println!("Columns: {:?}", col);
-        let mut row: Vec<_> = board_vec.iter().map(|pos| pos.1).collect();
+        println!("Columns in for: {:?}", col);
+
+        let mut row: Vec<u8> = board_vec.iter().map(|pos| pos.1).collect();
         row = row.into_iter().unique().collect();
         println!("Rows: {:?}", row);
         // Find the dimensions m x n of the matrix
-        let msize: usize = row.len();
-        let nsize: usize = col.len();
-        let mut s = 0;
-        let mut t = 0;
+        let nsize: usize = row.len();
+        let msize: usize = col.len();
 
-        let mut matrix: Vec<Vec<(char, u8)>> = vec![vec![(' ', 0); nsize]; msize];
+        let mut matrix: Vec<Vec<(char, u8)>> = vec![vec![('_', 0); msize]; nsize];
 
         #[allow(clippy::needless_range_loop, clippy::explicit_counter_loop)]
-        for r in &row {
-            for c in &col {
-                matrix[s][t] = (*c, *r);
-                t += 1;
+        for c in 0..msize {
+            for r in 0..nsize {
+                if !board_vec.is_empty() && board_vec[0].1 == (r as u8 + 1) {
+                    matrix[r][c] = (board_vec[0].0, board_vec[0].1);
+                    board_vec.remove(0);
+                }
             }
-            s += 1;
-            t = 0;
         }
 
         println!("\n (a, 1) is poisoned! \n");
