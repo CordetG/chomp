@@ -61,13 +61,13 @@ fn main() {
 
     agent::chomp(&mut chomp_bar_clone.state, Position(c, r));
 
-    let chomped_pieces: HashSet<Position> = chomp_bar
+    /*let chomped_pieces: HashSet<Position> = chomp_bar
         .state
         .difference(&chomp_bar_clone.state)
         .cloned()
         .collect();
 
-    let new_board = chomp_board::Board::chomped_board(&mut chomp_bar, chomped_pieces);
+    let new_board = chomp_board::Board::chomped_board(&mut chomp_bar, chomped_pieces);*/
     // Error: function displaying only the original board
     Board::format_board(&chomp_bar_clone);
 
