@@ -1,4 +1,4 @@
-#![allow(unused_imports, unused_variables)]
+#![allow(unused_imports, unused_variables, unused_assignments)]
 
 use chomp_board::*;
 use std::collections::HashSet;
@@ -38,38 +38,47 @@ fn main() {
 
     let mut chomp_bar_clone: Board = chomp_bar.clone();
 
+    let mut winner: bool = false;
+
     // play game
+    while !winner {
+        // user turn
+        println!("User Turn \nEnter as `chomp <alpha-col> <num-row>`");
 
-    // user turn
-    println!("User Turn \nEnter as `chomp <alpha-col> <num-row>`");
+        let mut user_turn: String = String::new();
+        // take in std input
+        io::stdin()
+            .read_line(&mut user_turn)
+            .expect("Did not recieve user input.");
 
-    let mut user_turn: String = String::new();
-    // take in std input
-    io::stdin()
-        .read_line(&mut user_turn)
-        .expect("Did not recieve user input.");
-    print!("User Move: {}", user_turn);
-    // cut out spaces
-    user_turn.retain(|c| c != ' ');
-    print!("User Move: {}", user_turn);
-    // split off string input user_turn = chomp, col = '<letter>', row = '<num>'
-    let mut col: String = user_turn.split_off(5);
-    let mut row: String = col.split_off(1);
-    row.truncate(1);
+        // cut out spaces
+        user_turn.retain(|c| c != ' ');
+        // split off string input user_turn = chomp, col = '<letter>', row = '<num>'
+        let mut col: String = user_turn.split_off(5);
+        let mut row: String = col.split_off(1);
+        row.truncate(1);
 
-    let Position(c, r) = Position::from((col, row));
+        let Position(c, r) = Position::from((col, row));
 
-    agent::chomp(&mut chomp_bar_clone.state, Position(c, r));
+        agent::chomp(&mut chomp_bar_clone.state, Position(c, r));
 
-    /*let chomped_pieces: HashSet<Position> = chomp_bar
-        .state
-        .difference(&chomp_bar_clone.state)
-        .cloned()
-        .collect();
+        Board::format_board(&chomp_bar_clone);
 
-    let new_board = chomp_board::Board::chomped_board(&mut chomp_bar, chomped_pieces);*/
-    // Error: function displaying only the original board
-    Board::format_board(&chomp_bar_clone);
+        println!("\nAgent Turn");
+
+        chomp_bar = chomp_bar_clone.clone();
+
+        let agent_move = agent::winning_move(&chomp_bar.state).unwrap().clone();
+        format!("Agent_move: {}", agent_move);
+
+        agent::chomp(&mut chomp_bar.state, agent_move);
+
+        Board::format_board(&chomp_bar);
+
+        if chomp_bar.state.is_empty() {
+            winner = true;
+        }
+    }
 
     //clearscreen::clear().expect("failed to clear screen");
 }

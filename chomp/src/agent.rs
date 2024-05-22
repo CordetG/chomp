@@ -17,7 +17,7 @@ use std::collections::HashSet;
 /// The `winning_move` function is returning an `Option` containing a reference to a `Position` if there
 /// is a winning move available in the given set of positions. If there is no winning move available, it
 /// returns `None`.
-fn winning_move(posn: &HashSet<Position>) -> Option<&Position> {
+pub fn winning_move(posn: &HashSet<Position>) -> Option<&Position> {
     for pos in posn.iter() {
         if pos.0 == 'a' && pos.1 == 1 {
             continue;
@@ -40,7 +40,7 @@ fn winning_move(posn: &HashSet<Position>) -> Option<&Position> {
 /// represented as a tuple of two values (x, y) where x represents the column and y represents the row.
 /// The function `chomp` takes this HashSet as input and performs certain operations on it based on the
 /// provided
-/// * `pos`: The `pos` parameter in the `chomp` function represents a position on a grid. It seems to be
+/// * `pos`: The `pos` parameter in the `chomp` function represents a position on a grid. It is
 /// a tuple containing two elements, where the first element is the column (`pos.0`) and the second
 /// element is the row (`pos.1`).
 pub fn chomp(posn: &mut HashSet<Position>, pos: Position) {
@@ -51,8 +51,6 @@ pub fn chomp(posn: &mut HashSet<Position>, pos: Position) {
     col = col.into_iter().unique().collect();
 
     col.retain(|&i| i >= pos.0);
-
-    println!("Columns: {:?}", col);
 
     // Chomp position right and down
     for c in col {
