@@ -11,7 +11,7 @@ use std::collections::HashSet;
 /// declaring a constant array named `COLMS` that contains string slices (`&str`) with a length of 10.
 /// Each element of the array represents a column identifier in the context of the Chomp game board. The
 /// identifiers are alphabetical letters from "a" to "j", which are commonly used to label columns on a
-/// game board or grid.
+/// game board.
 const COLMS: [&str; 10] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 
 /// Tuple type for the board position
@@ -23,20 +23,17 @@ pub struct Position(pub char, pub u8);
 pub struct BoardSize(pub u8, pub u8);
 
 #[derive(Clone)]
-/// ## Board
-///
-/// The `Board` struct represents a game board with a specific size, state, and optional player move.
+/// The `Board` struct represents a game board with a state containing positions and an optional player
+/// move.
 ///
 /// Properties:
 ///
-/// * `size`: The `size` property in the `Board` struct represents the size of the board. It is a
-/// struct that defines the dimensions of the board, such as the number of rows and columns.
 /// * `state`: The `state` property in the `Board` struct represents the current positions occupied on
-/// the board. It is a `HashSet` of `Position` elements, indicating the players' moves on the board.
+/// the board. It is a `HashSet` of `Position` objects, indicating where the players have placed their
+/// pieces on the board.
 /// * `player_move`: The `player_move` property in the `Board` struct represents the position where the
-/// player intends to make a move on the board. It is an `Option` type, which means it can either
-/// contain a `Position` value or be empty (`None`). This allows for flexibility in handling cases where
-/// the player did not submit a move.
+/// player intends to make a move on the board. It is an `Option<Position>`, which means it can either
+/// be `Some(Position)` indicating a specific position chosen by the player, or `None` if
 pub struct Board {
     pub state: HashSet<Position>,
     pub player_move: Option<Position>,
@@ -102,10 +99,14 @@ impl Board {
         new_state
     }
 
+    /// The `format_board` function sorts and formats a board represented as a matrix of
+    /// characters and integers.
     pub fn format_board(&self) {
+        // sort the board state values
         let mut board_vec: Vec<_> = self.state.iter().collect();
         board_vec.sort();
 
+        // seperate the columns and rows
         let mut col: Vec<char> = board_vec.iter().map(|pos| pos.0).collect();
         col = col.into_iter().unique().collect();
 
@@ -128,6 +129,7 @@ impl Board {
             }
         }
 
+        // Display the board as a vec-matrix
         println!("\n (a, 1) is poisoned! \n");
         for i in &matrix {
             println!("{:?}", i);
@@ -174,6 +176,8 @@ impl From<(String, String)> for BoardSize {
     }
 }
 
+/// This code snippet is implementing the `From` trait for converting a tuple of two `String` values
+/// into a `Position` struct.
 impl From<(String, String)> for Position {
     fn from(pos: (String, String)) -> Self {
         Position(
@@ -221,19 +225,13 @@ impl std::fmt::Display for BoardSize {
 
 /// This code snippet is implementing the `Game` trait for the `Board` struct..
 impl Game for Board {
-    /// The function `new` creates a new `Board` instance with a specified size and initializes the state
-    /// and player move fields.
-    ///
-    /// Arguments:
-    ///
-    /// * `def_size`: The `def_size` parameter in the `new` function represents the size of the board. It is
-    /// of type `BoardSize`, which specifies the dimensions or size of the game board, such as the
-    /// number of rows and columns.
+    /// The function `new` initializes a new `Board` struct with an empty `state` HashSet and `player_move`
+    /// set to `None`.
     ///
     /// Returns:
     ///
-    /// A new `Board` instance is being returned with the specified `def_size`, an empty `HashSet` for the
-    /// `state`, and `None` for the `player_move`.
+    /// A new instance of the `Board` struct is being returned. The `state` field is initialized with an
+    /// empty `HashSet`, and the `player_move` field is set to `None`.
     fn new() -> Board {
         Board {
             state: HashSet::new(),
@@ -243,6 +241,12 @@ impl Game for Board {
 
     // m = row, n = col
     #[allow(clippy::unused_enumerate_index)]
+    /// The function `default_state` initializes the game board with pieces in their starting positions.
+    ///
+    /// Arguments:
+    ///
+    /// * `size`: The `size` parameter in the `default_state` function represents the dimensions of the
+    /// board. It is a tuple containing the number of rows and columns in the board.
     fn default_state(&mut self, size: BoardSize) {
         let m: usize = size.0 as usize;
         let n: usize = size.1 as usize;
