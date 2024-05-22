@@ -101,11 +101,12 @@ Rows: [1, 2, 3, 4]
 
 :exclamation: For each turn:
 
-A UI agent plays against the user and the user goes first.
+A UI agent plays against the user and the user goes first. 
+**Note**, that if a `chomp` is not indicated by you, the player, you automatically lose the game.
 
 When there is a prompt for the user turn: `──> chomp <column-letter> <row-number>`.
 
-`──> chomp d 2` which removes all spaces the right and below:
+Example: `──> chomp d 2` which removes all spaces the right and below:
 
 ```sh
 # Continued from the example above
@@ -122,6 +123,10 @@ chomp d 2
 [('a', 3), ('b', 3), ('c', 3), ('_', 0), ('_', 0)]
 [('a', 4), ('b', 4), ('c', 4), ('_', 0), ('_', 0)]
 
+...
+
+# I won! --> when winning move returns None
+You Win -- Agent has been poisoned!
 ```
 
 ## Features
@@ -363,6 +368,10 @@ $ cargo run -- <m> <n>
 ```
 
 Reference for I/O: https://doc.rust-lang.org/stable/book/ch12-01-accepting-command-line-arguments.html
+
+## <!-- Another thing I learned.. -->
+
+One of my biggest issues was really getting the hang of ownership, and while I generally understood, in practice I was still vulnerable to making those mistakes during implementation. As a result I was able to learn quite a bit about how it works through my mistakes. 
 
 ## Tests
 
