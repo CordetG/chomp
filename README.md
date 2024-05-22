@@ -168,6 +168,8 @@ This will stall a losing move - allowing more time for the other player to make 
 
 ### How it went 
 
+Overall, it's not perfect. The code itself could be written better, and I would have liked it to have a more game-like feel to it, but it works pretty well and the AI has kicked my butt quite a bit... so, I dare say it's functional. 
+
 #### Design
 
 - **Dispay Board vs. board in memory**:
