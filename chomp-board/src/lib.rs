@@ -4,9 +4,6 @@
 //! This library manages a Board as a HashSet of positions. The primary functions are
 //! for displaying, formatting, and adjusting the board based on a player's moves.
 
-#![allow(unused_imports)]
-#![allow(dead_code, unused_variables)]
-use core::clone;
 use itertools::Itertools;
 use std::collections::HashSet;
 
@@ -41,7 +38,6 @@ pub struct BoardSize(pub u8, pub u8);
 /// contain a `Position` value or be empty (`None`). This allows for flexibility in handling cases where
 /// the player did not submit a move.
 pub struct Board {
-    size: BoardSize,
     pub state: HashSet<Position>,
     pub player_move: Option<Position>,
 }
@@ -53,7 +49,7 @@ pub trait Game {
     /// This method signature specifies that any type implementing the `Game` trait must provide an
     /// implementation for a function named `new` that takes a `BoardSize` parameter and returns an instance
     /// of the implementing type (`Self`).
-    fn new(def_size: BoardSize) -> Self;
+    fn new() -> Self;
 
     /// The `fn default_state(&mut self, size: BoardSize);` function signature within the `Game` trait is
     /// defining a method named `default_state` that takes a mutable reference to `self` (the `Board`
@@ -115,7 +111,7 @@ impl Board {
 
         let mut row: Vec<u8> = board_vec.iter().map(|pos| pos.1).collect();
         row = row.into_iter().unique().collect();
-    
+
         // Find the dimensions m x n of the matrix
         let nsize: usize = row.len();
         let msize: usize = col.len();
@@ -238,21 +234,21 @@ impl Game for Board {
     ///
     /// A new `Board` instance is being returned with the specified `def_size`, an empty `HashSet` for the
     /// `state`, and `None` for the `player_move`.
-    fn new(def_size: BoardSize) -> Board {
+    fn new() -> Board {
         Board {
-            size: def_size,
             state: HashSet::new(),
             player_move: None,
         }
     }
 
-    //m = row, n = col
+    // m = row, n = col
+    #[allow(clippy::unused_enumerate_index)]
     fn default_state(&mut self, size: BoardSize) {
         let m: usize = size.0 as usize;
         let n: usize = size.1 as usize;
 
         for row in 1..=m {
-            for (col, alpha) in COLMS.iter().take(n).enumerate() {
+            for (_col, alpha) in COLMS.iter().take(n).enumerate() {
                 self.state.insert(Position(
                     alpha.to_string().chars().next().unwrap(),
                     row as u8,
