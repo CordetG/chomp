@@ -44,9 +44,9 @@ pub fn winning_move(posn: &HashSet<Position>) -> Option<&Position> {
 /// element is the row (`pos.1`).
 pub fn chomp(posn: &mut HashSet<Position>, pos: Position) {
     let start_row: u8 = pos.1;
-    let row: Vec<_> = posn.iter().map(|pos| pos.1).collect();
+    let row: Vec<_> = posn.iter().map(|pos: &Position| pos.1).collect();
     let end_row: u8 = max(row).unwrap();
-    let mut col: Vec<_> = posn.iter().map(|pos| pos.0).collect();
+    let mut col: Vec<_> = posn.iter().map(|pos: &Position| pos.0).collect();
     col = col.into_iter().unique().collect();
 
     col.retain(|&i| i >= pos.0);

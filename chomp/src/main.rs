@@ -1,5 +1,3 @@
-//#![allow(unused_imports, unused_variables, unused_assignments)]
-
 use chomp_board::*;
 use std::env;
 use std::io;
@@ -22,9 +20,16 @@ fn main() {
 
     println!("{}", TITLE);
 
+    // Set up the Board
     let args: Vec<String> = env::args().collect();
+    let check_args = (args[1].as_str(), args[2].as_str());
 
-    println!("Rows: {} x Columns: {}", args[1], args[2]);
+    match check_args {
+        (n, m) if (n >= "3" && m >= "3") && (n <= "10" && m < "10") => {
+            println!("Rows: {} x Columns: {}", args[1], args[2])
+        }
+        _ => eprint!("Invalid board size!"),
+    }
 
     let arg_box: Box<Vec<String>> = Box::new(args);
     let game_box: Box<Vec<String>> = arg_box.clone();
@@ -36,10 +41,8 @@ fn main() {
 
     let mut chomp_bar_clone: Board = chomp_bar.clone();
 
-    let mut winner: bool = false;
-
     // play game
-    while !winner {
+    loop {
         // user turn
         println!("User Turn \nEnter as `chomp <alpha-col> <num-row>`");
 
@@ -63,10 +66,9 @@ fn main() {
 
         agent::chomp(&mut chomp_bar_clone.state, Position(c, r));
 
-        if chomp_bar.state.is_empty() {
-            winner = true;
+        if chomp_bar_clone.state.is_empty() {
             println!("Agent Wins -- You have been poisoned!");
-            continue;
+            break;
         }
 
         Board::format_board(&chomp_bar_clone);
@@ -77,18 +79,16 @@ fn main() {
 
         chomp_bar = chomp_bar_clone.clone();
 
-        let agent_move: Position = agent::winning_move(&chomp_bar.state).unwrap().clone();
-        format!("{}", Position(agent_move.0, agent_move.1));
-
-        agent::chomp(&mut chomp_bar.state, agent_move);
-
-        if chomp_bar.state.is_empty() {
-            winner = true;
+        let agent_move: Option<&Position> = agent::winning_move(&chomp_bar.state);
+        if agent_move.is_none() {
             println!("You Win -- Agent has been poisoned!");
-        } else {
-            Board::format_board(&chomp_bar);
+            break;
         }
-    }
 
-    clearscreen::clear().expect("failed to clear screen");
+        println!("{}", Position(agent_move.unwrap().0, agent_move.unwrap().1));
+
+        agent::chomp(&mut chomp_bar_clone.state, agent_move.unwrap().clone());
+
+        Board::format_board(&chomp_bar);
+    }
 }
