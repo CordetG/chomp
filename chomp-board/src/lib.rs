@@ -109,15 +109,13 @@ impl Board {
     pub fn format_board(&self) {
         let mut board_vec: Vec<_> = self.state.iter().collect();
         board_vec.sort();
-        println!("{:?}", board_vec);
 
         let mut col: Vec<char> = board_vec.iter().map(|pos| pos.0).collect();
         col = col.into_iter().unique().collect();
-        println!("Columns in for: {:?}", col);
 
         let mut row: Vec<u8> = board_vec.iter().map(|pos| pos.1).collect();
         row = row.into_iter().unique().collect();
-        println!("Rows: {:?}", row);
+    
         // Find the dimensions m x n of the matrix
         let nsize: usize = row.len();
         let msize: usize = col.len();
