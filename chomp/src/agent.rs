@@ -1,4 +1,3 @@
-#![allow(dead_code)]
 use chomp_board::*;
 
 use itertools::{max, Itertools};
