@@ -99,7 +99,30 @@ Rows: [1, 2, 3, 4]
 
 ## <!-- Then for each turn -->
 
-:exclamation: For each turn: ...TODO
+:exclamation: For each turn:
+
+A UI agent plays against the user and the user goes first.
+
+When there is a prompt for the user turn: `──> chomp <column-letter> <row-number>`.
+
+`──> chomp d 2` which removes all spaces the right and below:
+
+```sh
+# Continued from the example above
+....
+
+User Turn 
+Enter as `chomp <alpha-col> <num-row>`
+chomp d 2
+
+ (a, 1) is poisoned! 
+
+[('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1)]
+[('a', 2), ('b', 2), ('c', 2), ('_', 0), ('_', 0)]
+[('a', 3), ('b', 3), ('c', 3), ('_', 0), ('_', 0)]
+[('a', 4), ('b', 4), ('c', 4), ('_', 0), ('_', 0)]
+
+```
 
 ## Features
 
